@@ -93,28 +93,32 @@ class _WishlistDetailsState extends State<Wishlist> {
                 child: Text("Nothing to display. Keep SHoppping !!"));
           }
           return ListView.builder(
-              // separatorBuilder: (context, index) =>
-              //     Divider(color: Colors.black),
               physics: const AlwaysScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                return Card(
-                  child: Row(
-                    children: [
-                      WishlistProductProvider(
-                        prod_id: snapshot.data!.docs[index]['prodID'],
+                return Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Card(
+                      child: Row(
+                        children: [
+                          WishlistProductProvider(
+                            prod_id: snapshot.data!.docs[index]['prodID'],
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          IconButton(
+                              onPressed: (() => _removeOrder(
+                                  snapshot.data!.docs[index]['id'])),
+                              icon: const Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ))
+                        ],
                       ),
-                      IconButton(
-                          onPressed: (() =>
-                              _removeOrder(snapshot.data!.docs[index]['id'])),
-                          icon: const Icon(Icons.cancel))
-                    ],
-                  ),
-                );
+                    ));
               });
         });
   }
 }
-
-// typedef void StringCallback(String val);

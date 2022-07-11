@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:decor_my_home/pages/addProduct.dart';
+
 import 'package:decor_my_home/pages/allOrdersProductProvider.dart';
-import 'package:decor_my_home/pages/productDetails.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -29,7 +28,7 @@ class AllOrders extends StatelessWidget {
               appBar: AppBar(
                 // Here we take the value from the MyHomePage object that was created by
                 // the App.build method, and use it to set our appbar title.
-                title: const Text('AllOrders'),
+                title: const Text('All Orders'),
                 backgroundColor: const Color.fromARGB(255, 177, 75, 131),
               ),
               body: Column(
@@ -76,7 +75,7 @@ class AllOrders extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                        'Order Time: ${snapshot.data!.docs[index]['date'].toString()}'),
+                                        'Order Date: ${snapshot.data!.docs[index]['date'].toString()}'),
                                     const Divider(
                                       thickness: 2,
                                     ),
@@ -96,17 +95,6 @@ class AllOrders extends StatelessWidget {
                                               )
                                             ],
                                           ),
-                                          // AllOrdersProductProvider(
-                                          //   userID: snapshot.data!.docs[index]
-                                          //       ['userID'],
-                                          //   orderID: snapshot.data!.docs[index]
-                                          //       ['id'],
-                                          // ),
-                                          // SizedBox(
-                                          //   width: 100,
-                                          // ),
-                                          // Text(
-                                          //     snapshot.data!.docs[index]['id']),
                                           const VerticalDivider(
                                             thickness: 1,
                                           ),

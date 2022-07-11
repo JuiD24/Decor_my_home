@@ -7,15 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:decor_my_home/firebase_options.dart';
 
 class ProductCategory extends StatelessWidget {
-  const ProductCategory({Key? key, required this.departmentID})
+  const ProductCategory(
+      {Key? key, required this.departmentID, required this.isAdmin})
       : super(key: key);
   final String? departmentID;
-
-  //  @override
-  // void initState() {
-  //   // TODO: implement initState
-
-  // }
+  final bool isAdmin;
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +27,22 @@ class ProductCategory extends StatelessWidget {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
-              // appBar: AppBar(
-              //   // Here we take the value from the MyHomePage object that was created by
-              //   // the App.build method, and use it to set our appbar title.
-              //   title: const Text('Shop by Category'),
-              //   backgroundColor: const Color.fromARGB(255, 177, 75, 131),
-              // ),
               body: Column(
                 children: [getBody()],
               ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) =>
-                              AddCategory(dID: departmentID))));
-                },
-                tooltip: 'Add a category',
-                child: const Icon(Icons.add),
-              ),
+              floatingActionButton: isAdmin == true
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) =>
+                                    AddCategory(dID: departmentID))));
+                      },
+                      tooltip: 'Add a category',
+                      child: const Icon(Icons.add),
+                    )
+                  : Container(),
               // This trailing comma makes auto-formatting nicer for build methods.
             );
           }
@@ -118,6 +110,7 @@ class ProductCategory extends StatelessWidget {
                                                   .docs[index]['department_id'],
                                               categoryID: snapshot
                                                   .data!.docs[index]['id'],
+                                              isAdmin: isAdmin,
                                             ))));
                               }
                             },

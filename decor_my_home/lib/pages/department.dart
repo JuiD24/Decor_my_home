@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:decor_my_home/firebase_options.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const Department());
@@ -46,6 +47,20 @@ class DepartmentPage extends StatefulWidget {
 
 class _DepartmentState extends State<DepartmentPage> {
   // int _selectedScreenIndex = 0;
+  late bool isAdmin;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDetails();
+  }
+
+  void getDetails() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    isAdmin = preferences.getBool("isAdmin")!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,17 +85,19 @@ class _DepartmentState extends State<DepartmentPage> {
               body: Column(
                 children: [getBody()],
               ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) =>
-                              const AddDepartment(title: "Get a photo"))));
-                },
-                tooltip: 'Add a photo',
-                child: const Icon(Icons.add),
-              ),
+              floatingActionButton: isAdmin == true
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => const AddDepartment(
+                                    title: "Get a photo"))));
+                      },
+                      tooltip: 'Add a photo',
+                      child: const Icon(Icons.add),
+                    )
+                  : Container(),
               // This trailing comma makes auto-formatting nicer for build methods.
             );
           }
@@ -144,8 +161,10 @@ class _DepartmentState extends State<DepartmentPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: ((context) => ProductCategory(
-                                            departmentID: snapshot
-                                                .data!.docs[index]['id']))));
+                                              departmentID: snapshot
+                                                  .data!.docs[index]['id'],
+                                              isAdmin: isAdmin,
+                                            ))));
                               }
                             },
                             child: photoWidget(snapshot, index));

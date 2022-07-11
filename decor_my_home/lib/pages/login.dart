@@ -69,17 +69,20 @@ class _LoginState extends State<Login> {
         FirebaseFirestore.instance.collection("users").doc(user.uid).set({
           "id": user.uid,
           "username": user.email,
-          "profilePicture": user.photoURL
+          "profilePicture": user.photoURL,
+          "isAdmin": false
         });
         await preferences.setString("id", user.uid);
         await preferences.setString("username", user.email ?? "");
         await preferences.setString("photoUrl", user.photoURL ?? "");
+        await preferences.setBool("isAdmin", false);
       } else {
         // print("inside 2");
         // print(documents[0]['username']);
         await preferences.setString("id", documents[0]['id']);
         await preferences.setString("username", documents[0]['username']);
         await preferences.setString("photoUrl", documents[0]['profilePicture']);
+        await preferences.setBool("isAdmin", documents[0]['isAdmin']);
       }
 
       setState(() {

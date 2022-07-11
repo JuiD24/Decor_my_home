@@ -60,7 +60,6 @@ class _ProductDetailsState extends State<ProductDetails> {
 
     final List<DocumentSnapshot> documents = result.docs;
     if (documents.isNotEmpty) {
-      // print(documents[0]["id"]);
       setState(() {
         isFavorite = true;
         favDocID = documents[0]["id"];
@@ -80,7 +79,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   void addToCart() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    // print("inside");
+
     String? userid = preferences.getString("id");
     if (!_initialized) {
       await initializeDefault();
@@ -97,12 +96,6 @@ class _ProductDetailsState extends State<ProductDetails> {
 
     final List<DocumentSnapshot> documents = result.docs;
     if (documents.length == 0) {
-      // final QuerySnapshot result = await FirebaseFirestore.instance
-      //     .collection("product")
-      //     .where("prodID",isEqualTo: widget.prodID)
-      //     .get();
-      // final List<DocumentSnapshot> documents = result.docs;
-
       FirebaseFirestore.instance.collection("cart").doc(uid).set({
         "userID": preferences.getString("id"),
         "id": uid,
@@ -186,6 +179,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     /// username
                     TextFormField(
                       controller: _controller,
+                      keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                           labelText: 'Update Product Quantity'),
                       validator: (value) {

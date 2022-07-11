@@ -3,6 +3,7 @@ import 'package:decor_my_home/firebase_options.dart';
 import 'package:decor_my_home/pages/ThankYouPage.dart';
 import 'package:decor_my_home/pages/cartProductProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,7 +67,7 @@ class _CartDetailsState extends State<Cart> {
     _count.value = total;
   }
 
-  void createOrder() {
+  void createOrder() async {
     var uuid = Uuid();
     final String uid = uuid.v4();
 
@@ -79,6 +80,20 @@ class _CartDetailsState extends State<Cart> {
           .collection("cart")
           .doc(documents[i]['id'])
           .update({"orderStatus": true, "orderID": uid});
+
+      final QuerySnapshot prod = await FirebaseFirestore.instance
+          .collection("product")
+          .where("id", isEqualTo: documents[i]['prodID'])
+          .get();
+
+      List<DocumentSnapshot> prodDetails = prod.docs;
+
+      FirebaseFirestore.instance
+          .collection("product")
+          .doc(documents[i]['prodID'])
+          .update({
+        "Quantity": prodDetails[0]['Quantity'] - documents[i]['orderQuantity']
+      });
     }
 
     FirebaseFirestore.instance.collection("order").doc(uid).set(
@@ -187,22 +202,28 @@ class _CartDetailsState extends State<Cart> {
               shrinkWrap: true,
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                return Card(
-                  child: Row(
-                    children: [
-                      CartProductProvider(
-                          prod_id: snapshot.data!.docs[index]['prodID'],
-                          orderQ: snapshot.data!.docs[index]['orderQuantity'],
-                          orderid: snapshot.data!.docs[index]['id'],
-                          count: _count),
-                      IconButton(
-                          onPressed: (() => _removeOrder(
-                              snapshot.data!.docs[index]['id'],
-                              snapshot.data!.docs[index]['price'])),
-                          icon: const Icon(Icons.cancel))
-                    ],
-                  ),
-                );
+                return Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Card(
+                      child: Row(
+                        children: [
+                          CartProductProvider(
+                              prod_id: snapshot.data!.docs[index]['prodID'],
+                              orderQ: snapshot.data!.docs[index]
+                                  ['orderQuantity'],
+                              orderid: snapshot.data!.docs[index]['id'],
+                              count: _count),
+                          IconButton(
+                              onPressed: (() => _removeOrder(
+                                  snapshot.data!.docs[index]['id'],
+                                  snapshot.data!.docs[index]['price'])),
+                              icon: const Icon(
+                                CupertinoIcons.delete,
+                                color: Colors.red,
+                              ))
+                        ],
+                      ),
+                    ));
               });
         });
   }
