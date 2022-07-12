@@ -105,15 +105,6 @@ class AddCategory extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Add Category'),
         backgroundColor: const Color.fromARGB(255, 177, 75, 131),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.logout,
-              color: Colors.white,
-            ),
-            onPressed: () {},
-          )
-        ],
       ),
       body: SingleChildScrollView(
           child: ConstrainedBox(

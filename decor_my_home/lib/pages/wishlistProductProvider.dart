@@ -45,7 +45,7 @@ class WishlistProductProviderState extends State<WishlistProductProvider> {
           if (!snapshot.hasData) {
             return const Text("Loading Wishlist");
           } else {
-            print(snapshot.data!.docs[0]);
+            // print(snapshot.data!.docs[0]);
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

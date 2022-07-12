@@ -125,15 +125,6 @@ class _CartDetailsState extends State<Cart> {
                 appBar: AppBar(
                   title: const Text('Your Cart'),
                   backgroundColor: const Color.fromARGB(255, 177, 75, 131),
-                  actions: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.logout,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {},
-                    )
-                  ],
                 ),
                 drawer: const DrawerDetails(),
                 body: Column(

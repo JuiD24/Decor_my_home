@@ -80,15 +80,6 @@ class _DepartmentState extends State<DepartmentPage> {
               appBar: AppBar(
                 title: const Text('Shop by Departments'),
                 backgroundColor: const Color.fromARGB(255, 177, 75, 131),
-                actions: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.logout,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {},
-                  )
-                ],
               ),
               drawer: const DrawerDetails(),
               body: Column(

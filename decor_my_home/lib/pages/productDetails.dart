@@ -225,15 +225,6 @@ class _ProductDetailsState extends State<ProductDetails> {
         appBar: AppBar(
           title: const Text('Product Details'),
           backgroundColor: const Color.fromARGB(255, 177, 75, 131),
-          actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.logout,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            )
-          ],
         ),
         body: Card(
           elevation: 6,

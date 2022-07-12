@@ -114,17 +114,8 @@ class AddProduct extends StatelessWidget {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Decor'),
+        title: const Text('Add Product'),
         backgroundColor: const Color.fromARGB(255, 177, 75, 131),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.logout,
-              color: Colors.white,
-            ),
-            onPressed: () {},
-          )
-        ],
       ),
       body: SingleChildScrollView(
           child: ConstrainedBox(

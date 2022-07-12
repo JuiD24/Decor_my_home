@@ -1,7 +1,10 @@
 import 'package:decor_my_home/pages/allOrders.dart';
+import 'package:decor_my_home/pages/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +18,7 @@ class DrawerDetails extends StatefulWidget {
 }
 
 class _DrawerDetailsState extends State<DrawerDetails> {
+  final GoogleSignIn _googleSignIn = new GoogleSignIn();
   String? username;
   String? userURL;
   String? userID;
@@ -33,6 +37,14 @@ class _DrawerDetailsState extends State<DrawerDetails> {
       userURL = preferences.getString("photoUrl");
       userID = preferences.getString("id");
     });
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+    await _googleSignIn.signOut();
+
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Login()));
   }
 
   @override
@@ -60,6 +72,10 @@ class _DrawerDetailsState extends State<DrawerDetails> {
                     MaterialPageRoute(
                         builder: ((context) => AllOrders(userID: userID))));
               },
+            ),
+            ListTile(
+              title: const Text('Log Out'),
+              onTap: _signOut,
             ),
           ],
         ),
