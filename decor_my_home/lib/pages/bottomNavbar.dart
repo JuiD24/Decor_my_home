@@ -3,8 +3,6 @@ import 'package:decor_my_home/pages/Cart/cart.dart';
 import 'package:decor_my_home/pages/Department/department.dart';
 import 'package:decor_my_home/pages/login.dart';
 import 'package:decor_my_home/pages/Wishlist/wishlist.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -18,7 +16,7 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class BottomNavBarState extends State<BottomNavBar> {
-  final GoogleSignIn _googleSignIn = new GoogleSignIn();
+  // final GoogleSignIn _googleSignIn = new GoogleSignIn();
   int _currentIndex = 0;
   late String? username = "";
   late String? userID = "";
@@ -53,17 +51,19 @@ class BottomNavBarState extends State<BottomNavBar> {
     });
   }
 
-  Future<void> _signOut() async {
-    await FirebaseAuth.instance.signOut();
-    await _googleSignIn.signOut();
+  // Future<void> _signOut() async {
+  //   await FirebaseAuth.instance.signOut();
+  //   await _googleSignIn.signOut();
 
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Login()));
-  }
+  //   Navigator.pushReplacement(
+  //       context, MaterialPageRoute(builder: (context) => Login()));
+  // }
 
   @override
   Widget build(BuildContext context) {
+    // print("inside bottomnav");
     return Scaffold(
+
         // appBar: AppBar(
         //   title: const Text('Decor'),
         //   backgroundColor: const Color.fromARGB(255, 177, 75, 131),
@@ -77,7 +77,7 @@ class BottomNavBarState extends State<BottomNavBar> {
         //     )
         //   ],
         // ),
-        drawer: const DrawerDetails(),
+        // drawer: const DrawerDetails(),
         body: _children.elementAt(_currentIndex), // new
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,

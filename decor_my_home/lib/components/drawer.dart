@@ -1,11 +1,8 @@
 import 'package:decor_my_home/pages/Orders/allOrders.dart';
 import 'package:decor_my_home/pages/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerDetails extends StatefulWidget {
@@ -19,6 +16,7 @@ class DrawerDetails extends StatefulWidget {
 
 class _DrawerDetailsState extends State<DrawerDetails> {
   final GoogleSignIn _googleSignIn = new GoogleSignIn();
+  late SharedPreferences preferences;
   String? username;
   String? userURL;
   String? userID;
@@ -31,7 +29,7 @@ class _DrawerDetailsState extends State<DrawerDetails> {
   }
 
   void getDetails() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences = await SharedPreferences.getInstance();
     setState(() {
       username = preferences.getString("username");
       userURL = preferences.getString("photoUrl");
@@ -43,8 +41,14 @@ class _DrawerDetailsState extends State<DrawerDetails> {
     await FirebaseAuth.instance.signOut();
     await _googleSignIn.signOut();
 
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Login()));
+    await preferences.setString("id", "");
+    await preferences.setString("username", "");
+    await preferences.setString("photoUrl", "");
+    await preferences.setBool("isAdmin", false);
+
+    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => Login()),
+        (Route<dynamic> route) => false);
   }
 
   @override

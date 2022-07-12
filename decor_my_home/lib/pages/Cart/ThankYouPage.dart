@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:decor_my_home/pages/bottomNavbar.dart';
-import 'package:decor_my_home/pages/Department/department.dart';
 import 'package:flutter/material.dart';
 
 class ThankYouPage extends StatefulWidget {

@@ -21,7 +21,7 @@ class _LoginState extends State<Login> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    isSignedIn();
+    // isSignedIn();
   }
 
   void isSignedIn() async {

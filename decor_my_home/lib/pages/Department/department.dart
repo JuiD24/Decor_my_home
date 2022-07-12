@@ -3,11 +3,14 @@ import 'package:decor_my_home/pages/Department/addDepartment.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:decor_my_home/pages/Category/category.dart';
+import 'package:decor_my_home/pages/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:decor_my_home/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 void main() {
   runApp(const Department());
@@ -49,6 +52,7 @@ class DepartmentPage extends StatefulWidget {
 class _DepartmentState extends State<DepartmentPage> {
   // int _selectedScreenIndex = 0;
   late bool isAdmin;
+  // final GoogleSignIn _googleSignIn = new GoogleSignIn();
 
   @override
   void initState() {
@@ -62,6 +66,15 @@ class _DepartmentState extends State<DepartmentPage> {
 
     isAdmin = preferences.getBool("isAdmin")!;
   }
+
+  // Future<void> _signOut() async {
+  //   await FirebaseAuth.instance.signOut();
+  //   await _googleSignIn.signOut();
+
+  //   Navigator.of(context).pushAndRemoveUntil(
+  //       MaterialPageRoute(builder: (context) => Login()),
+  //       (Route<dynamic> route) => false);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +93,15 @@ class _DepartmentState extends State<DepartmentPage> {
               appBar: AppBar(
                 title: const Text('Shop by Departments'),
                 backgroundColor: const Color.fromARGB(255, 177, 75, 131),
+                // actions: [
+                //   IconButton(
+                //     icon: const Icon(
+                //       Icons.logout,
+                //       color: Colors.white,
+                //     ),
+                //     onPressed: _signOut,
+                //   )
+                // ],
               ),
               drawer: const DrawerDetails(),
               body: Column(
