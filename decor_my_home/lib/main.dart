@@ -1,4 +1,4 @@
-import 'package:decor_my_home/pages/cart.dart';
+import 'package:decor_my_home/pages/Cart/cart.dart';
 import 'package:decor_my_home/pages/login.dart';
 
 import 'package:flutter/material.dart';

@@ -1,8 +1,8 @@
 import 'package:decor_my_home/components/drawer.dart';
-import 'package:decor_my_home/pages/addDepartment.dart';
+import 'package:decor_my_home/pages/Department/addDepartment.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:decor_my_home/pages/category.dart';
+import 'package:decor_my_home/pages/Category/category.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

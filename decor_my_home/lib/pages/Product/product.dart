@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:decor_my_home/pages/addProduct.dart';
-import 'package:decor_my_home/pages/productDetails.dart';
+import 'package:decor_my_home/pages/Product/addProduct.dart';
+import 'package:decor_my_home/pages/Product/productDetails.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';

@@ -1,8 +1,8 @@
 import 'package:decor_my_home/components/drawer.dart';
-import 'package:decor_my_home/pages/cart.dart';
-import 'package:decor_my_home/pages/department.dart';
+import 'package:decor_my_home/pages/Cart/cart.dart';
+import 'package:decor_my_home/pages/Department/department.dart';
 import 'package:decor_my_home/pages/login.dart';
-import 'package:decor_my_home/pages/wishlist.dart';
+import 'package:decor_my_home/pages/Wishlist/wishlist.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
