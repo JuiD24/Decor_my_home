@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:decor_my_home/firebase_options.dart';
+import 'package:decor_my_home/pages/productDetails.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -48,21 +49,39 @@ class WishlistProductProviderState extends State<WishlistProductProvider> {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Image.network(snapshot.data!.docs[0]["downloadURL"],
-                    width: 100, height: 80, fit: BoxFit.cover),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => ProductDetails(
+                                  prodURL: snapshot.data!.docs[0]
+                                      ['downloadURL'],
+                                  prodPrice: snapshot.data!.docs[0]['price'],
+                                  prodDesc: snapshot.data!.docs[0]['desc'],
+                                  prodID: snapshot.data!.docs[0]['id'],
+                                  prodQuantity: snapshot.data!.docs[0]
+                                      ['Quantity']))));
+                    },
+                    child: Image.network(snapshot.data!.docs[0]["downloadURL"],
+                        width: 100, height: 80, fit: BoxFit.cover)),
                 const SizedBox(
                   width: 10,
                 ),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(
-                    snapshot.data!.docs[0]["desc"],
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  Text(
-                    '\$${snapshot.data!.docs[0]["price"]}',
-                    style: Theme.of(context).textTheme.headline6,
-                  )
-                ]),
+                SizedBox(
+                    width: 120,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            snapshot.data!.docs[0]["desc"],
+                            style: Theme.of(context).textTheme.headline5,
+                          ),
+                          Text(
+                            '\$${snapshot.data!.docs[0]["price"]}',
+                            style: Theme.of(context).textTheme.headline6,
+                          )
+                        ])),
                 const SizedBox(
                   width: 10,
                 ),

@@ -27,6 +27,19 @@ class ProductCategory extends StatelessWidget {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
+              appBar: AppBar(
+                title: const Text('Shop by Category'),
+                backgroundColor: const Color.fromARGB(255, 177, 75, 131),
+                actions: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {},
+                  )
+                ],
+              ),
               body: Column(
                 children: [getBody()],
               ),

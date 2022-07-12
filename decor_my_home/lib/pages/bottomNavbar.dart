@@ -64,19 +64,19 @@ class BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Decor'),
-          backgroundColor: const Color.fromARGB(255, 177, 75, 131),
-          actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.logout,
-                color: Colors.white,
-              ),
-              onPressed: _signOut,
-            )
-          ],
-        ),
+        // appBar: AppBar(
+        //   title: const Text('Decor'),
+        //   backgroundColor: const Color.fromARGB(255, 177, 75, 131),
+        //   actions: [
+        //     IconButton(
+        //       icon: const Icon(
+        //         Icons.logout,
+        //         color: Colors.white,
+        //       ),
+        //       onPressed: _signOut,
+        //     )
+        //   ],
+        // ),
         drawer: const DrawerDetails(),
         body: _children.elementAt(_currentIndex), // new
         bottomNavigationBar: BottomNavigationBar(

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:decor_my_home/components/drawer.dart';
 import 'package:decor_my_home/firebase_options.dart';
 import 'package:decor_my_home/pages/ThankYouPage.dart';
 import 'package:decor_my_home/pages/cartProductProvider.dart';
@@ -6,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
@@ -99,7 +101,7 @@ class _CartDetailsState extends State<Cart> {
     FirebaseFirestore.instance.collection("order").doc(uid).set(
         {"id": uid, "userID": userID, "total": _count.value, "date": currDate});
 
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: ((context) =>
@@ -120,51 +122,50 @@ class _CartDetailsState extends State<Cart> {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
+                appBar: AppBar(
+                  title: const Text('Your Cart'),
+                  backgroundColor: const Color.fromARGB(255, 177, 75, 131),
+                  actions: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {},
+                    )
+                  ],
+                ),
+                drawer: const DrawerDetails(),
                 body: Column(
                   children: [
                     getBody(),
                   ],
                 ),
-                bottomNavigationBar: Row(
-                  children: [
-                    ValueListenableBuilder<int>(
-                      builder:
-                          (BuildContext context, int value, Widget? child) {
-                        // This builder will only get called when the _counter
-                        // is updated.
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            value == 0
-                                ? ElevatedButton(
-                                    child: Text(
-                                      "Nothing to display. Keep shopping ",
-                                      style:
-                                          Theme.of(context).textTheme.headline5,
-                                    ),
-                                    onPressed: () {},
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
-                                        width: 390,
-                                        child: ElevatedButton(
-                                            onPressed: createOrder,
-                                            child: Text(
-                                                'Checkout : ' + '\$$value')))),
-                          ],
-                        );
-                      },
-                      valueListenable: _count,
-                      // The child parameter is most helpful if the child is
-                      // expensive to build and does not depend on the value from
-                      // the notifier.
-                    )
-                  ],
-                )
-                // This trailing comma makes auto-formatting nicer for build methods.
-                );
+                bottomNavigationBar: Container(
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_count.value > 0) {
+                            createOrder();
+                          }
+                        },
+                        child: ValueListenableBuilder<int>(
+                          builder:
+                              (BuildContext context, int value, Widget? child) {
+                            if (value == 0) {
+                              return Text(
+                                "Nothing to display. Keep shopping ",
+                                style: Theme.of(context).textTheme.headline5,
+                              );
+                            } else {
+                              return Text('Checkout : ' + '\$$value');
+                            }
+                          },
+                          valueListenable: _count,
+                        ),
+                      )),
+                ));
           }
           return const CircularProgressIndicator();
         }));
@@ -228,5 +229,3 @@ class _CartDetailsState extends State<Cart> {
         });
   }
 }
-
-typedef void StringCallback(String val);

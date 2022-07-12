@@ -1,3 +1,4 @@
+import 'package:decor_my_home/components/drawer.dart';
 import 'package:decor_my_home/pages/addDepartment.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -76,6 +77,20 @@ class _DepartmentState extends State<DepartmentPage> {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
+              appBar: AppBar(
+                title: const Text('Shop by Departments'),
+                backgroundColor: const Color.fromARGB(255, 177, 75, 131),
+                actions: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {},
+                  )
+                ],
+              ),
+              drawer: const DrawerDetails(),
               body: Column(
                 children: [getBody()],
               ),

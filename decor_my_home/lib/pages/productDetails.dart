@@ -221,67 +221,85 @@ class _ProductDetailsState extends State<ProductDetails> {
   @override
   Widget build(BuildContext context) {
     print("");
-    return Card(
-      elevation: 6,
-      child: GridTile(
-          header: GridTileBar(
-            backgroundColor: Colors.white,
-            leading: Text(
-              widget.prodDesc!,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            title: Text(
-              "\$" + widget.prodPrice.toString(),
-              style: const TextStyle(
-                  color: Colors.red, fontWeight: FontWeight.w800),
-            ),
-            subtitle: Text(
-              "Quantity Available: " + pageQuantity.toString(),
-              style: const TextStyle(
-                color: Colors.black54,
-                fontWeight: FontWeight.w800,
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Product Details'),
+          backgroundColor: const Color.fromARGB(255, 177, 75, 131),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.logout,
+                color: Colors.white,
               ),
-            ),
-            trailing: ElevatedButton(
-              onPressed: _updateQuantity,
-              child: const Text('Update Quantity'),
-            ),
-          ),
-          child: Image.network(
-            widget.prodURL!,
-            // fit: BoxFit.cover,
-          ),
-          footer: Container(
-            padding: EdgeInsets.all(10),
-            margin: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(20)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: userQ < widget.prodQuantity! ? _addQuantity : null,
-                  child: const Icon(Icons.add),
+              onPressed: () {},
+            )
+          ],
+        ),
+        body: Card(
+          elevation: 6,
+          child: GridTile(
+              header: GridTileBar(
+                backgroundColor: Colors.white,
+                leading: SizedBox(
+                    width: 80,
+                    child: Text(
+                      widget.prodDesc!,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                title: Text(
+                  "\$" + widget.prodPrice.toString(),
+                  style: const TextStyle(
+                      color: Colors.red, fontWeight: FontWeight.w800),
                 ),
-                Text(userQ.toString()),
-                ElevatedButton(
-                  onPressed: userQ > 1 ? _subQuantity : null,
-                  child: const Icon(Icons.remove),
+                subtitle: Text(
+                  "Quantity Available: " + pageQuantity.toString(),
+                  style: const TextStyle(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: addToCart,
-                  child: const Text('Add to Cart'),
+                trailing: ElevatedButton(
+                  onPressed: _updateQuantity,
+                  child: const Text('Update Quantity'),
                 ),
-                isFavorite == true
-                    ? IconButton(
-                        onPressed: _removeFromFavorite,
-                        icon: const Icon(Icons.favorite))
-                    : IconButton(
-                        onPressed: _addtoFavorite,
-                        icon: const Icon(Icons.favorite_border_outlined))
-              ],
-            ),
-          )),
-    );
+              ),
+              child: Image.network(
+                widget.prodURL!,
+                // fit: BoxFit.cover,
+              ),
+              footer: Container(
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed:
+                          userQ < widget.prodQuantity! ? _addQuantity : null,
+                      child: const Icon(Icons.add),
+                    ),
+                    Text(userQ.toString()),
+                    ElevatedButton(
+                      onPressed: userQ > 1 ? _subQuantity : null,
+                      child: const Icon(Icons.remove),
+                    ),
+                    ElevatedButton(
+                      onPressed: addToCart,
+                      child: const Text('Add to Cart'),
+                    ),
+                    isFavorite == true
+                        ? IconButton(
+                            onPressed: _removeFromFavorite,
+                            icon: const Icon(Icons.favorite))
+                        : IconButton(
+                            onPressed: _addtoFavorite,
+                            icon: const Icon(Icons.favorite_border_outlined))
+                  ],
+                ),
+              )),
+        ));
   }
 }

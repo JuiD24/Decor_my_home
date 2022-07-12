@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:decor_my_home/components/drawer.dart';
 import 'package:decor_my_home/firebase_options.dart';
 import 'package:decor_my_home/pages/wishlistProductProvider.dart';
 
@@ -54,6 +55,20 @@ class _WishlistDetailsState extends State<Wishlist> {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
+              appBar: AppBar(
+                title: const Text('Your Wishlist'),
+                backgroundColor: const Color.fromARGB(255, 177, 75, 131),
+                actions: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {},
+                  )
+                ],
+              ),
+              drawer: const DrawerDetails(),
               body: Column(
                 children: [getBody()],
               ),
@@ -65,7 +80,7 @@ class _WishlistDetailsState extends State<Wishlist> {
         }));
   }
 
-  void _removeOrder(String favDocID) async {
+  void _removeProduct(String favDocID) async {
     if (!_initialized) {
       await initializeDefault();
     }
@@ -109,7 +124,7 @@ class _WishlistDetailsState extends State<Wishlist> {
                             width: 30,
                           ),
                           IconButton(
-                              onPressed: (() => _removeOrder(
+                              onPressed: (() => _removeProduct(
                                   snapshot.data!.docs[index]['id'])),
                               icon: const Icon(
                                 Icons.delete,

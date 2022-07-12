@@ -106,10 +106,19 @@ class _AddDepartmentState extends State<AddDepartment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text("Add Department"),
-      //   backgroundColor: const Color.fromARGB(255, 177, 75, 131),
-      // ),
+      appBar: AppBar(
+        title: const Text('Add Department'),
+        backgroundColor: const Color.fromARGB(255, 177, 75, 131),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          )
+        ],
+      ),
       body: SingleChildScrollView(
           child: ConstrainedBox(
               constraints: const BoxConstraints(),
