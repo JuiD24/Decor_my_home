@@ -52,22 +52,28 @@ class ProductCategory extends StatelessWidget {
 
   Widget photoWidget(AsyncSnapshot<QuerySnapshot> snapshot, int index) {
     try {
-      return Card(
-        elevation: 5,
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(snapshot.data!.docs[index]['downloadURL']),
-              fit: BoxFit.fitWidth,
-              alignment: Alignment.topCenter,
+      return Container(
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            color: Colors.pink[50], borderRadius: BorderRadius.circular(20)),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.all(10),
+              child: Image.network(
+                snapshot.data!.docs[index]['downloadURL'],
+                height: 120,
+                width: 120,
+              ),
             ),
-          ),
-          child: Align(
+            Container(
+              padding: EdgeInsets.only(top: 5),
               alignment: Alignment.bottomCenter,
-              child: Text(
-                snapshot.data!.docs[index]['name'],
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              )),
+              child: Text(snapshot.data!.docs[index]['name']),
+            ),
+            // Container()  for prod desc
+          ],
         ),
       );
     } catch (e) {

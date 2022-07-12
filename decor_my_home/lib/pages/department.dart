@@ -76,12 +76,6 @@ class _DepartmentState extends State<DepartmentPage> {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
-              // appBar: AppBar(
-              //   // Here we take the value from the MyHomePage object that was created by
-              //   // the App.build method, and use it to set our appbar title.
-              //   title: Text(widget.title),
-              //   backgroundColor: const Color.fromARGB(255, 177, 75, 131),
-              // ),
               body: Column(
                 children: [getBody()],
               ),
@@ -109,22 +103,28 @@ class _DepartmentState extends State<DepartmentPage> {
 
   Widget photoWidget(AsyncSnapshot<QuerySnapshot> snapshot, int index) {
     try {
-      return Card(
-        elevation: 5,
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(snapshot.data!.docs[index]['downloadURL']),
-              fit: BoxFit.fitWidth,
-              alignment: Alignment.topCenter,
+      return Container(
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            color: Colors.pink[50], borderRadius: BorderRadius.circular(20)),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.all(10),
+              child: Image.network(
+                snapshot.data!.docs[index]['downloadURL'],
+                height: 120,
+                width: 120,
+              ),
             ),
-          ),
-          child: Align(
+            Container(
+              padding: EdgeInsets.only(top: 5),
               alignment: Alignment.bottomCenter,
-              child: Text(
-                snapshot.data!.docs[index]['name'],
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              )),
+              child: Text(snapshot.data!.docs[index]['name']),
+            ),
+            // Container()  for prod desc
+          ],
         ),
       );
     } catch (e) {
