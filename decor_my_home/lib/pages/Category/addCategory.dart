@@ -119,7 +119,7 @@ class AddCategory extends StatelessWidget {
                           TextFormField(
                             controller: _controller,
                             decoration: const InputDecoration(
-                                labelText: 'CategoryName'),
+                                labelText: 'Category name'),
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
                                 return 'This field is required';
@@ -136,7 +136,7 @@ class AddCategory extends StatelessWidget {
                               onPressed: () {
                                 _upload(context);
                               },
-                              child: const Text("Submit",
+                              child: const Text("Add Category",
                                   style: TextStyle(fontSize: 20))),
                         ],
                       ))))),

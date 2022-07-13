@@ -32,6 +32,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool _initialized = false;
   bool isFavorite = false;
   late String favDocID = "";
+  late bool isAdmin = false;
 
   int userQ = 1;
   late int pageQuantity = widget.prodQuantity!;
@@ -47,6 +48,10 @@ class _ProductDetailsState extends State<ProductDetails> {
   void getDetails() async {
     if (!_initialized) {
       await initializeDefault();
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      setState(() {
+        isAdmin = preferences.getBool("isAdmin")!;
+      });
     }
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -82,7 +87,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     if (!_initialized) {
       await initializeDefault();
     }
-    var uuid = Uuid();
+    var uuid = const Uuid();
     final String uid = uuid.v4();
 
     final QuerySnapshot result = await FirebaseFirestore.instance
@@ -131,7 +136,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       await initializeDefault();
     }
 
-    var uuid = Uuid();
+    var uuid = const Uuid();
     final String uid = uuid.v4();
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
@@ -206,7 +211,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 setState(() {
                   pageQuantity = int.parse(_controller.text);
                 });
-
+                _controller.text = "";
                 Navigator.of(context).pop();
               },
             ),
@@ -247,18 +252,20 @@ class _ProductDetailsState extends State<ProductDetails> {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                trailing: ElevatedButton(
-                  onPressed: _updateQuantity,
-                  child: const Text('Update Quantity'),
-                ),
+                trailing: isAdmin == true
+                    ? ElevatedButton(
+                        onPressed: _updateQuantity,
+                        child: const Text('Update Quantity'),
+                      )
+                    : Container(),
               ),
               child: Image.network(
                 widget.prodURL!,
                 // fit: BoxFit.cover,
               ),
               footer: Container(
-                padding: EdgeInsets.all(10),
-                margin: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20)),

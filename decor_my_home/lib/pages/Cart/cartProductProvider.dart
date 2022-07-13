@@ -81,7 +81,6 @@ class CartProductProviderState extends State<CartProductProvider> {
           if (!snapshot.hasData) {
             return const Text("Loading Products");
           } else {
-            print(snapshot.data!.docs[0]);
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

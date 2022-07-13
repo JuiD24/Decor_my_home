@@ -130,7 +130,7 @@ class AddProduct extends StatelessWidget {
                           TextFormField(
                             controller: _controller,
                             decoration: const InputDecoration(
-                                labelText: 'Product Desc'),
+                                labelText: 'Product Description'),
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
                                 return 'This field is required';

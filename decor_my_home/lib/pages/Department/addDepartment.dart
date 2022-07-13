@@ -123,7 +123,7 @@ class _AddDepartmentState extends State<AddDepartment> {
                           TextFormField(
                             controller: _controller,
                             decoration: const InputDecoration(
-                                labelText: 'DepartmentName'),
+                                labelText: 'Department name'),
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
                                 return 'This field is required';
@@ -140,7 +140,7 @@ class _AddDepartmentState extends State<AddDepartment> {
                               onPressed: () {
                                 _upload();
                               },
-                              child: const Text("Submit",
+                              child: const Text("Add Department",
                                   style: TextStyle(fontSize: 20))),
                         ],
                       ))))),
