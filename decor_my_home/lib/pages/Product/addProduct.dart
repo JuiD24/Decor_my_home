@@ -19,7 +19,9 @@ class AddProduct extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _pricecontroller = TextEditingController();
   final TextEditingController _quantitycontroller = TextEditingController();
-  File? _image;
+  // File? _image;
+  List<XFile>? imageFileList = [];
+
   String _productDesc = '';
   late int _productPrice;
   late int _productQuantity;
@@ -42,29 +44,44 @@ class AddProduct extends StatelessWidget {
     initializeDefault();
   }
 
-  void _getImage() async {
-    final ImagePicker _picker = ImagePicker();
-    // Pick an image
-    final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
+  // void _getImage() async {
+  //   final ImagePicker _picker = ImagePicker();
+  //   // Pick an image
+  //   final XFile? pickedImage =
+  //       await _picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedImage != null) {
-      _image = File(pickedImage.path);
-    } else {
-      if (kDebugMode) {
-        print('No image selected.');
-      }
+  //   if (pickedImage != null) {
+  //     _image = File(pickedImage.path);
+  //   } else {
+  //     if (kDebugMode) {
+  //       print('No image selected.');
+  //     }
+  //   }
+  // }
+
+  void multipleImagePicker() async {
+    final List<XFile>? selectedImages = await ImagePicker().pickMultiImage();
+    if (selectedImages!.isNotEmpty) {
+      imageFileList!.addAll(selectedImages);
     }
   }
 
-  Future<String> _uploadFile(filename) async {
-    if (!_initialized) {
-      await initializeDefault();
+  Future<List<String>> multipleImageUploader() async {
+    List<String> _path = [];
+    if (imageFileList!.isNotEmpty) {
+      for (XFile _im in imageFileList!) {
+        _path.add(await _uploadMultifile(_im));
+      }
     }
+    return _path;
+  }
+
+  Future<String> _uploadMultifile(XFile im) async {
+    String filename = getImageName(im);
     final Reference ref = FirebaseStorage.instance.ref().child('$filename.jpg');
     final SettableMetadata metadata =
         SettableMetadata(contentType: 'image/jpeg', contentLanguage: 'en');
-    final UploadTask uploadTask = ref.putFile(_image!, metadata);
+    final UploadTask uploadTask = ref.putFile(File(im.path), metadata);
     final downloadURL = await (await uploadTask).ref.getDownloadURL();
     if (kDebugMode) {
       print(downloadURL.toString());
@@ -72,7 +89,26 @@ class AddProduct extends StatelessWidget {
     return downloadURL.toString();
   }
 
-  Future<void> _addItem(String downloadURL, String id) async {
+  void _upload2(BuildContext context) async {
+    if (!_initialized) {
+      await initializeDefault();
+    }
+    if (imageFileList != null) {
+      var uuid = Uuid();
+      final String uid = uuid.v4();
+      if (kDebugMode) {
+        print(uid);
+      }
+      _productDesc = _controller.text;
+      _productPrice = int.parse(_pricecontroller.text);
+      _productQuantity = int.parse(_quantitycontroller.text);
+      final List<String> downloadURL = await multipleImageUploader();
+      await _addItem2(downloadURL, uid);
+      Navigator.pop(context);
+    }
+  }
+
+  Future<void> _addItem2(List<String> downloadURLs, String id) async {
     if (!_initialized) {
       await initializeDefault();
     }
@@ -80,7 +116,7 @@ class AddProduct extends StatelessWidget {
         .collection('product')
         .doc(id)
         .set(<String, dynamic>{
-      'downloadURL': downloadURL,
+      'downloadURL': downloadURLs,
       'id': id,
       'department_id': dID,
       'category_id': categoryID,
@@ -90,24 +126,61 @@ class AddProduct extends StatelessWidget {
     });
   }
 
-  void _upload(BuildContext context) async {
-    if (!_initialized) {
-      await initializeDefault();
-    }
-    if (_image != null) {
-      var uuid = Uuid();
-      final String uid = uuid.v4();
-      if (kDebugMode) {
-        print(uid);
-      }
-      _productDesc = _controller.text;
-      _productPrice = int.parse(_pricecontroller.text);
-      _productQuantity = int.parse(_quantitycontroller.text);
-      final String downloadURL = await _uploadFile(_productDesc);
-      await _addItem(downloadURL, uid);
-      Navigator.pop(context);
-    }
+  String getImageName(XFile image) {
+    return image.path.split("/").last;
   }
+
+  // Future<String> _uploadFile(filename) async {
+  //   if (!_initialized) {
+  //     await initializeDefault();
+  //   }
+  //   final Reference ref = FirebaseStorage.instance.ref().child('$filename.jpg');
+  //   final SettableMetadata metadata =
+  //       SettableMetadata(contentType: 'image/jpeg', contentLanguage: 'en');
+  //   final UploadTask uploadTask = ref.putFile(_image!, metadata);
+  //   final downloadURL = await (await uploadTask).ref.getDownloadURL();
+  //   if (kDebugMode) {
+  //     print(downloadURL.toString());
+  //   }
+  //   return downloadURL.toString();
+  // }
+
+  // Future<void> _addItem(String downloadURL, String id) async {
+  //   if (!_initialized) {
+  //     await initializeDefault();
+  //   }
+  //   await FirebaseFirestore.instance
+  //       .collection('product')
+  //       .doc(id)
+  //       .set(<String, dynamic>{
+  //     'downloadURL': downloadURL,
+  //     'id': id,
+  //     'department_id': dID,
+  //     'category_id': categoryID,
+  //     'desc': _productDesc,
+  //     'price': _productPrice,
+  //     'Quantity': _productQuantity
+  //   });
+  // }
+
+  // void _upload(BuildContext context) async {
+  //   if (!_initialized) {
+  //     await initializeDefault();
+  //   }
+  //   if (_image != null) {
+  //     var uuid = Uuid();
+  //     final String uid = uuid.v4();
+  //     if (kDebugMode) {
+  //       print(uid);
+  //     }
+  //     _productDesc = _controller.text;
+  //     _productPrice = int.parse(_pricecontroller.text);
+  //     _productQuantity = int.parse(_quantitycontroller.text);
+  //     final String downloadURL = await _uploadFile(_productDesc);
+  //     await _addItem(downloadURL, uid);
+  //     Navigator.pop(context);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -166,12 +239,12 @@ class AddProduct extends StatelessWidget {
                             },
                           ),
                           ElevatedButton(
-                            onPressed: _getImage,
+                            onPressed: multipleImagePicker,
                             child: const Icon(Icons.add_a_photo),
                           ),
                           ElevatedButton(
                               onPressed: () {
-                                _upload(context);
+                                _upload2(context);
                               },
                               child: const Text("Add Product",
                                   style: TextStyle(fontSize: 20))),

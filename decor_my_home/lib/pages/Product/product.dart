@@ -115,7 +115,7 @@ class ProductDetailsState extends State<Product> {
             Container(
               margin: EdgeInsets.all(10),
               child: Image.network(
-                snapshot.data!.docs[index]['downloadURL'],
+                snapshot.data!.docs[index]['downloadURL'][0],
                 height: 120,
                 width: 140,
               ),

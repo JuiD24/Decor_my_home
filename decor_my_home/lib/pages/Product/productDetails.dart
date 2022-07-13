@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:decor_my_home/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class ProductDetails extends StatefulWidget {
-  final String? prodURL;
+  final List<dynamic>? prodURL;
   final int? prodPrice;
   final String? prodDesc;
   final String? prodID;
@@ -259,10 +260,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                       )
                     : Container(),
               ),
-              child: Image.network(
-                widget.prodURL!,
-                // fit: BoxFit.cover,
-              ),
               footer: Container(
                 padding: const EdgeInsets.all(10),
                 margin: const EdgeInsets.all(10),
@@ -295,6 +292,20 @@ class _ProductDetailsState extends State<ProductDetails> {
                             icon: const Icon(Icons.favorite_border_outlined))
                   ],
                 ),
+              ),
+              child: CarouselSlider(
+                options: CarouselOptions(
+                    autoPlay: false,
+                    viewportFraction: 0.9,
+                    // autoPlayInterval: const Duration(seconds: 2),
+                    // autoPlayAnimationDuration: const Duration(milliseconds: 400),
+                    height: 300,
+                    clipBehavior: Clip.hardEdge),
+                items: widget.prodURL!.map((item) {
+                  return GridTile(
+                    child: Image.network(item, fit: BoxFit.cover),
+                  );
+                }).toList(),
               )),
         ));
   }
