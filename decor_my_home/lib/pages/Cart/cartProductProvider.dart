@@ -84,7 +84,7 @@ class CartProductProviderState extends State<CartProductProvider> {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Image.network(snapshot.data!.docs[0]["downloadURL"],
+                Image.network(snapshot.data!.docs[0]["downloadURL"][0],
                     width: 100, height: 80, fit: BoxFit.cover),
                 const SizedBox(
                   width: 10,

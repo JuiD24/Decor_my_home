@@ -60,8 +60,11 @@ class WishlistProductProviderState extends State<WishlistProductProvider> {
                                   prodQuantity: snapshot.data!.docs[0]
                                       ['Quantity']))));
                     },
-                    child: Image.network(snapshot.data!.docs[0]["downloadURL"],
-                        width: 100, height: 80, fit: BoxFit.cover)),
+                    child: Image.network(
+                        snapshot.data!.docs[0]["downloadURL"][0],
+                        width: 100,
+                        height: 80,
+                        fit: BoxFit.cover)),
                 const SizedBox(
                   width: 10,
                 ),

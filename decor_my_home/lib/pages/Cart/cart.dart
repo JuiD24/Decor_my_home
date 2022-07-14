@@ -186,36 +186,39 @@ class _CartDetailsState extends State<Cart> {
             return const Center(
                 child: Text("No orders to display. Keep SHoppping !!"));
           }
-          return ListView.builder(
-              // separatorBuilder: (context, index) =>
-              //     Divider(color: Colors.black),
-              physics: const AlwaysScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Card(
-                      child: Row(
-                        children: [
-                          CartProductProvider(
-                              prod_id: snapshot.data!.docs[index]['prodID'],
-                              orderQ: snapshot.data!.docs[index]
-                                  ['orderQuantity'],
-                              orderid: snapshot.data!.docs[index]['id'],
-                              count: _count),
-                          IconButton(
-                              onPressed: (() => _removeOrder(
-                                  snapshot.data!.docs[index]['id'],
-                                  snapshot.data!.docs[index]['price'])),
-                              icon: const Icon(
-                                CupertinoIcons.delete,
-                                color: Colors.red,
-                              ))
-                        ],
-                      ),
-                    ));
-              });
+          return Expanded(
+              child: Scrollbar(
+                  child: ListView.builder(
+                      // separatorBuilder: (context, index) =>
+                      //     Divider(color: Colors.black),
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Card(
+                              child: Row(
+                                children: [
+                                  CartProductProvider(
+                                      prod_id: snapshot.data!.docs[index]
+                                          ['prodID'],
+                                      orderQ: snapshot.data!.docs[index]
+                                          ['orderQuantity'],
+                                      orderid: snapshot.data!.docs[index]['id'],
+                                      count: _count),
+                                  IconButton(
+                                      onPressed: (() => _removeOrder(
+                                          snapshot.data!.docs[index]['id'],
+                                          snapshot.data!.docs[index]['price'])),
+                                      icon: const Icon(
+                                        CupertinoIcons.delete,
+                                        color: Colors.red,
+                                      ))
+                                ],
+                              ),
+                            ));
+                      })));
         });
   }
 }

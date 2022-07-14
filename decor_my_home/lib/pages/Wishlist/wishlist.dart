@@ -98,33 +98,36 @@ class _WishlistDetailsState extends State<Wishlist> {
             return const Center(
                 child: Text("Nothing to display. Keep SHoppping !!"));
           }
-          return ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Card(
-                      child: Row(
-                        children: [
-                          WishlistProductProvider(
-                            prod_id: snapshot.data!.docs[index]['prodID'],
-                          ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          IconButton(
-                              onPressed: (() => _removeProduct(
-                                  snapshot.data!.docs[index]['id'])),
-                              icon: const Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                              ))
-                        ],
-                      ),
-                    ));
-              });
+          return Expanded(
+              child: Scrollbar(
+                  child: ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Card(
+                              child: Row(
+                                children: [
+                                  WishlistProductProvider(
+                                    prod_id: snapshot.data!.docs[index]
+                                        ['prodID'],
+                                  ),
+                                  SizedBox(
+                                    width: 30,
+                                  ),
+                                  IconButton(
+                                      onPressed: (() => _removeProduct(
+                                          snapshot.data!.docs[index]['id'])),
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ))
+                                ],
+                              ),
+                            ));
+                      })));
         });
   }
 }
