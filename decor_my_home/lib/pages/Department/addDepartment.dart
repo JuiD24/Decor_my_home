@@ -46,7 +46,7 @@ class _AddDepartmentState extends State<AddDepartment> {
     final ImagePicker _picker = ImagePicker();
     // Pick an image
     final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
+        await _picker.pickImage(source: ImageSource.camera);
     setState(() {
       if (pickedImage != null) {
         _image = File(pickedImage.path);
